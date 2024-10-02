@@ -1,3 +1,4 @@
+#INITALIZING THE TURTLE FOR USE LATER
 import turtle
 screen = turtle.Screen()
 screen.title("Finding Bob")
@@ -7,7 +8,7 @@ t = turtle.Turtle()
 t.speed(0)
 t.hideturtle()
 
-#TURTLE FUNCTIONS
+#TURTLE FUNCTIONS DRAWING DIFFERENT ROOMS
 def cemetery():
   t.penup()
   t.goto(0, 200)
