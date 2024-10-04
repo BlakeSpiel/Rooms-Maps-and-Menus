@@ -147,9 +147,9 @@ def tWriting():
   t.goto(-400, -200)
   t.pendown()
   
-#cemetary()
+#cemetery()
 #church()
-#mausolum()
+#mausoleum()
 #catacombs()
 #lair()
 
