@@ -80,9 +80,4 @@ church()
 cemetery()
 menu()
 
-
-
-
-
-
 turtle.mainloop()
