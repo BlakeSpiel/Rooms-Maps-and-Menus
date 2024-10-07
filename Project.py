@@ -153,5 +153,53 @@ def tWriting():
 #catacombs()
 #lair()
 
+# enemy encounter, not even close to done
+enemy_name = "Zombie"
+enemy_health = 10
+
+user_health = 25
+
+def enemy_encounter():
+    print("A fierce-looking zombie appears, with only one thing on it's mind, you.")
+
+    #loop
+    while monster_health > 0 and user_health > 0:
+        print(f"The {enemy_name} has {enemy_health} health.")
+        print(f"You have {user_health} health.")
+
+        #display what the player can do
+        print("---------")
+        print("1. Attack")
+        print("2. Run")
+        print("3. Defend")
+
+        #ask what the player wants to do
+        answer = int(input("What would you like to do? (1, 2 or 3) "))
+
+        #if player chooses to attack
+        if answer == "1":
+            #display users inventory
+
+            #asking what item in the inventory to use
+            itemUsed = int(input("What item would you like to attack the {enemy_name} with?"))
+
+            #if item is correct, enemy is no more?
+
+            #if item chosen is bad one, user has to flee
+                #look at "zork clone data tables" doc for the pseudocode
+        
+        #if player chooses to flee
+        if answer == "2":
+            #choose 0 or 1 at random, to give a 50% chance to successfully flee or not
+            escape = random.randint(0, 1)
+            if escape == 0:
+                print(enemy_fleeingDesc_failed)
+            else:
+                print(enemy_fleeingDesc_success)
+        
+        #if player chooses to defend
+        if answer == "3":
+            #look at the doc!!!
+
 #Keeps the turtle menu on the screen
 turtle.mainloop()
