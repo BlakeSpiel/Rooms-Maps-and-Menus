@@ -267,24 +267,35 @@ def enemy_encounter():
             itemUsed = int(input("What item would you like to attack the {enemy_name} with?"))
 
             #if item is correct, enemy is no more?
-
+    
             #if item chosen is bad one, user has to flee
-                #look at "zork clone data tables" doc for the pseudocode
+            userFlee()
         
         #if player chooses to flee
         if answer == "2":
-            #choose 0 or 1 at random, to give a 50% chance to successfully flee or not
-            escape = random.randint(0, 1)
-            if escape == 0:
-                print(enemy_fleeingDesc_failed)
-            else:
-                print(enemy_fleeingDesc_success)
+            userFlee()
         
         #if player chooses to defend
         if answer == "3":
-            #look at the doc!!!
+            escape = random.randint(0, 1)
+            if escape == 0:
+                death = random.randint(0,4)
+                if death  == 0:
+                    print("you have died, game over")
+                    #back to menu with no resources or anything
+                else:
+                    #doc does not say?
+            else:
+                print(enemy_fleeingDesc_success)
 
-  
+def userFlee():
+        # choose 0 or 1 at random, to give a 50% chance to successfully flee or not
+        escape = random.randint(0, 1)
+        if escape == 0:
+            print(enemy_fleeingDesc_failed)
+        else:
+            print(enemy_fleeingDesc_success)
+
 cemetery()
 #church()
 #mausoleum()
