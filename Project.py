@@ -20,7 +20,7 @@ def cemetery():
     t.clear()
     def description():
         t.write("""
-        In the cemetery, you come across graves, and a mausoleum to the west. The cemetery is enclosed with a picket fence. 
+        Here you are, in a cemetery. You find graves and a mausoleum to the west, all of which is enclosed by a picket fence. 
         You are unable to see the end of the cemetery from where you are standing. Walking back toward the entrance the fog thins out 
         As you venture into the cemetery the fog gets thicker, and you feel as if you are being watched. 
         You see a small church towards the east of the cemetery through the thick fog. There are nothing but dead trees and graves around.
@@ -48,7 +48,7 @@ def cemetery():
             print("You enter the half collapsed church.")
             church()
         elif 'west' in menuInput and key == 1:
-            print("You twist the into the lock and with little effort, you're able to push the doors open.")
+            print("You twist the key into the lock and with little effort, you're able to push the doors open.")
             mausoleum()
         elif 'west' in menuInput and key == 0:
             print("You attempt to open the doors but they won't budge. The key must be around here somewhere.")
@@ -57,7 +57,7 @@ def cemetery():
             print("The fog is too thick to see anything worth investigating, Grues might be lurking around in the deep fog too, so its best to keep in well lit areas.")
             menu()
         else:
-            print("I don't understand. Try: North, South, East, West.")
+            print("I don't understand. Try: North, South, East, West, down, up.")
             menu()
 
     map()
@@ -117,7 +117,7 @@ def church():
     if firstTimeMausoleum == True:
         t.write(
             """
-            A large gust of wind and slams the door behind you.
+            A large gust of wind slams the door behind you.
 
             """)
         firstTimeMausoleum == False
@@ -125,7 +125,7 @@ def church():
     def description():
         t.write(
             """
-            You're now in the mausoleum. You see a rows of shelving next next along with a flimsy ladder that leads into darkness.
+            You're now in the mausoleum. You see rows of shelving all holding old earns. Along the north wall is a flimsy ladder leading into darkness.
             """)
     def map():
         t.penup()
