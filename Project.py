@@ -8,23 +8,40 @@ t = turtle.Turtle()
 t.speed(0)
 t.hideturtle()
 
-#Different states for the character
+#Different states of charactor
 key = 0 #Turns into 1 if they have it
-firstTimeMausoleum = True
+firstTimeMausoleum = True #Locks the door
 onward = 0 #For the cave. The number of times they've gone south. Once they hit two they leave.
-gruCounter = 0 #If they wonder in the caves for over 7 moves, they get a little surprise :)
+gruCounter = 0 #If they wonder in the caves for over 7 moves, they get a little supprise :)
+
+def help():
+    print("""
+    -----COMMANDS-----
+    Navigation: North, South, East, West, Up, Down
+    Combat: Attack, Run, Defend
+    Interaction: Look around, pickup (object name), 
+    """)
+
+def huh():
+    print("I'm sorry, I didn't get that. If you need help with commands just type Help.")
 
 
-#TURTLE FUNCTIONS FOR EVERY ROOM MENU, MAP, AND DESCRIPTION.
+#TURTLE FUNCTIONS FOR EVERY ROOMS MENU, MAP, AND DESRIPTION.
 def cemetery():
     t.clear()
     def description():
         t.write("""
-        Here you are, in a cemetery. You find graves and a mausoleum to the west, all of which is enclosed by a picket fence. 
-        You are unable to see the end of the cemetery from where you are standing. Walking back toward the entrance the fog thins out 
-        As you venture into the cemetery the fog gets thicker, and you feel as if you are being watched. 
-        You see a small church towards the east of the cemetery through the thick fog. There are nothing but dead trees and graves around.
-        """)
+Here you are, in a cemetery. You find graves and a mausoleum to the west, all of which is enclosed by a picket fence. 
+You are unable to see the end of the cemetery from where you are standing. Walking back toward the entrance the fog thins out 
+As you venture into the cemetery the fog gets thicker, and you feel as if you are being watched. 
+You see a small church towards the east of the cemetery through the thick fog. There are nothing but dead trees and graves around.
+""")
+        print("""
+Here you are, in a cemetery. You find graves and a mausoleum to the west, all of which is enclosed by a picket fence. 
+You are unable to see the end of the cemetery from where you are standing. Walking back toward the entrance the fog thins out 
+As you venture into the cemetery the fog gets thicker, and you feel as if you are being watched. 
+You see a small church towards the east of the cemetery through the thick fog. There are nothing but dead trees and graves around.
+""")
 
     def map():
         t.penup()
@@ -56,8 +73,14 @@ def cemetery():
         elif 'north' in menuInput or 'east' in menuInput:
             print("The fog is too thick to see anything worth investigating, Grues might be lurking around in the deep fog too, so its best to keep in well lit areas.")
             menu()
+        elif 'look' in menuInput:
+            description()
+            menu()
+        elif 'help' in menuInput:
+            help()
+            menu()
         else:
-            print("I don't understand. Try: North, South, East, West, down, up.")
+            huh()
             menu()
 
     map()
@@ -69,10 +92,15 @@ def church():
     t.clear()
     def description():
         t.write(
-            """
-            The door creaks as you enter the church, and the moon lights up the inside of the building 
-            through the cracks in the roof. It looks as if the building could fall apart at any moment.
-            """)
+"""
+The door creaks as you enter the church, and the moon lights up the inside of the building 
+through the cracks in the roof. It looks as if the building could fall apart at any moment.
+""")
+        print(
+"""
+The door creaks as you enter the church, and the moon lights up the inside of the building 
+through the cracks in the roof. It looks as if the building could fall apart at any moment.
+""")
     def map():
         t.penup()
         t.goto(0, 200)
@@ -98,12 +126,18 @@ def church():
         elif 'south' in menuInput or 'east' in menuInput or 'west' in menuInput:
             print("The only exit you can find is through the grand church door you just walked through.")
             menu()
-        elif 'key' in menuInput:
+        elif 'key' in menuInput and 'pickup' in menuInput:
             print("You pick up the skeleton key.")
             key += 1
             menu()
+        elif 'look' in menuInput:
+            description()
+            menu()
+        elif 'help' in menuInput:
+            help()
+            menu()
         else:
-            print("I don't understand. Try: North, South, East, West.")
+            huh()
             menu()
 
     map()
@@ -116,17 +150,26 @@ def mausoleum():
     t.clear()
     if firstTimeMausoleum == True:
         t.write(
-            """
-            A large gust of wind slams the door behind you.
+"""
+A large gust of wind slams the door behind you.
 
-            """)
+""")
+        print(
+"""
+A large gust of wind slams the door behind you.
+
+""")
         firstTimeMausoleum == False
 
     def description():
         t.write(
-            """
-            You're now in the mausoleum. You see rows of shelving all holding old urns. Along the north wall is a flimsy ladder leading into darkness.
-            """)
+"""
+You're now in the mausoleum. You see rows of shelving all holding old earns. Along the north wall is a flimsy ladder leading into darkness.
+""")
+        print(
+"""
+You're now in the mausoleum. You see rows of shelving all holding old earns. Along the north wall is a flimsy ladder leading into darkness.
+""")
     def map():
         t.penup()
         t.goto(-50, 150)
@@ -159,8 +202,14 @@ def mausoleum():
         elif 'north' in menuInput or 'east' in menuInput or 'west' in menuInput:
             print("You have no urge to look any longer than you already have at the tombs to you're right and left.")
             menu()
+        elif 'look' in menuInput:
+            description()
+            menu()
+        elif 'help' in menuInput:
+            help()
+            menu()
         else:
-            print("I don't understand. Try: North, South, East, West")
+            huh()
             menu()
 
     map()
@@ -173,10 +222,14 @@ def catacombs():
     t.clear()
     def description():
         t.write(
-            """
-            The vast hallways all look the exact same. It would be very easy to get lost here.”
-            """)
-    
+"""
+The vast hallway looks the exact same as the others. It would be very easy to get lost.”
+""")
+        print(
+"""
+The vast hallway looks the exact same as the others. It would be very easy to get lost.”
+""")
+
     def map():
         t.penup()
         t.goto(-60, 120)
@@ -199,7 +252,7 @@ def catacombs():
                 mausoleum()
             elif 'north' in menuInput and onward > 0:
                 gruCounter += 1
-                "This isn't right. I'm horribly lost."
+                "This isnt right. I'm horribly lost."
                 menu()
             elif 'south' in menuInput:
                 onward += 1
@@ -213,8 +266,14 @@ def catacombs():
                 gruCounter += 1
                 print("How do I get out of here.")
                 menu()
+            elif 'look' in menuInput:
+                description()
+                menu()
+            elif 'help' in menuInput:
+                help()
+                menu()
             else:
-                print("I don't understand. Try: North, South, East, West")
+                huh()
                 menu()
         print("That looks different. This door must be my way out of here.")
         lair()
@@ -229,9 +288,13 @@ def lair():
     t.clear()
     def description():
         t.write(
-            """
-            Against your gut, you open the door, and you enter a giant vast lair that is well lit with a man standing in the middle. "It’s Bobby!"
-            """)
+"""
+Against your gut, you open the door, and you enter a giant vast lair that is well lit with a man standing in the middle. "It’s Bobby!"
+""")
+        print(
+"""
+Against your gut, you open the door, and you enter a giant vast lair that is well lit with a man standing in the middle. "It’s Bobby!"
+""")
     def map():
         t.penup()
         t.goto(-35, 00)
@@ -249,8 +312,14 @@ def lair():
         elif 'north' in menuInput or 'south' in menuInput or 'east' in menuInput or 'west' in menuInput:
             print("What is Bobby doing here? I should go talk to him.")
             menu()
+        elif 'look' in menuInput:
+            description()
+            menu()
+        elif 'help' in menuInput:
+            help()
+            menu()
         else:
-            print("I don't understand.")
+            huh()
             menu()
 
     map()
@@ -263,7 +332,7 @@ def tWriting():
   t.penup()
   t.goto(-400, -200)
   t.pendown()
-
+    
 # enemy encounter, not even close to done
 enemy_name = "Zombie"
 enemy_health = 10
