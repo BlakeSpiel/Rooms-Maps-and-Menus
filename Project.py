@@ -111,7 +111,7 @@ def church():
     description()
     menu()
 
-def mausoleum():
+    def mausoleum():
     global firstTimeMausoleum
     t.clear()
     if firstTimeMausoleum == True:
@@ -134,12 +134,19 @@ def mausoleum():
         for i in range(2):
             t.forward(100)
             t.right(90)
-            t.forward(50)
-            t.penup()
-            t.forward(40)
-            t.pendown()
-            t.forward(50)
+            t.forward(140)
             t.right(90)
+        t.penup()
+        t.goto(-25, 125)
+        t.pendown()
+        t.forward(25)
+        t.right(90)
+        t.penup()
+        t.forward(25)
+        t.pendown()
+        for i in range (3):
+            t.right(90)
+            t.forward(25)
 
     def menu():
         menuInput = input().lower()
