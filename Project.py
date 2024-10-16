@@ -5,17 +5,17 @@ screen.title("Finding Bob")
 screen.setup(width=800, height=600)
 
 t = turtle.Turtle()
-t.speed(1)
+t.speed(0)
 t.hideturtle()
 
-#Different states of charactor
+#Different states for the character
 key = 0 #Turns into 1 if they have it
 firstTimeMausoleum = True
 onward = 0 #For the cave. The number of times they've gone south. Once they hit two they leave.
-gruCounter = 0 #If they wonder in the caves for over 7 moves, they get a little supprise :)
+gruCounter = 0 #If they wonder in the caves for over 7 moves, they get a little surprise :)
 
 
-#TURTLE FUNCTIONS FOR EVERY ROOMS MENU, MAP, AND DESRIPTION.
+#TURTLE FUNCTIONS FOR EVERY ROOM MENU, MAP, AND DESCRIPTION.
 def cemetery():
     t.clear()
     def description():
@@ -111,7 +111,7 @@ def church():
     description()
     menu()
 
-    def mausoleum():
+def mausoleum():
     global firstTimeMausoleum
     t.clear()
     if firstTimeMausoleum == True:
@@ -125,7 +125,7 @@ def church():
     def description():
         t.write(
             """
-            You're now in the mausoleum. You see rows of shelving all holding old earns. Along the north wall is a flimsy ladder leading into darkness.
+            You're now in the mausoleum. You see rows of shelving all holding old urns. Along the north wall is a flimsy ladder leading into darkness.
             """)
     def map():
         t.penup()
@@ -174,7 +174,7 @@ def catacombs():
     def description():
         t.write(
             """
-            The vast hallway looks the exact same as the others. It would be very easy to get lost.”
+            The vast hallways all look the exact same. It would be very easy to get lost here.”
             """)
     
     def map():
@@ -199,7 +199,7 @@ def catacombs():
                 mausoleum()
             elif 'north' in menuInput and onward > 0:
                 gruCounter += 1
-                "This isnt right. I'm horribly lost."
+                "This isn't right. I'm horribly lost."
                 menu()
             elif 'south' in menuInput:
                 onward += 1
