@@ -1,5 +1,6 @@
 #INITALIZING THE TURTLE FOR USE LATER
 import turtle
+import random
 screen = turtle.Screen()
 screen.title("Finding Bob")
 screen.setup(width=800, height=600)
@@ -8,11 +9,62 @@ t = turtle.Turtle()
 t.speed(0)
 t.hideturtle()
 
+# WeaponNeeded, Enemy, Enemy Description, Attacking Description, Defend Description, Attacked Description, Fleeing Description (Success), Fleeing Description (Failure)
+zombie_data = ["Shovel",
+               "Zombie",
+               "A fierce looking zombie appears, with only one thing on its mind, you.",
+               "With one fast motion of your Shovel, the zombie is no more",
+               "The zombie attempts to hit you with a bat, and it hits itself and perishes.",
+               "The zombie rushes you and starts viciously biting you",
+               "The zombie shuffle is no match for your speed walk.",
+               "The zombie covers your escape and attacks you."]
+
+grue_data = ["N/A",
+            "Grue",
+            "The darkness makes you feel uneasy,"
+            " something is watching from the shadows",
+            "You [WEAPON_ACTION] but fail to hit anything in the dark",
+            "Defending is useless! You curl into a ball and wait patiently for your death against the shadowed figure approaching.",
+            "A fowl Grue appears before your eyes. You’ve died.",
+            "N/A",
+            "You hear the footsteps coming closer and closer. It’s a grue! You’ve died."]
+
+bob_data = ["3",
+            "Bob",
+            "It's Bobby!",
+            "Why would you attack your long-lost friend?",
+            "Defend against what?",
+            "N/A",
+            "N/A",
+            "(Bob turns into evil Bob)"]
+
+evilBob_data = ["N/A",
+                "Evil Bob",
+                "Bob's true intentions come to light,"
+                "Bob has been serial killer X-wing all along!",
+                "With adrenaline rushing through your body, you use all your might to [WEAPON_ACTION] at Bob"
+                "You take the backpack off your back and use it as a shield against Bob’s knife that will surely give you tetanus. Lucky enough, the knife gets stuck in the ball of lint in the backpack",
+                "Your once friend uses his rusty knife to slash into your chest.",
+                "N/A",
+                "The door slams shut behind you,"
+                " there is no escaping."]
+
+movingSkull_data = ["Crowbar",
+                    "Moving Skull",
+                    "Before your eyes, a moving skull, watching you and preparing to bite.",
+                    "The skull shatters into pieces upon contact with your Crowbar.",
+                    "The skull attempts to bite you and crumbles into bone fragments. They are extremely sharp.",
+                    "You fail to defend yourself, and the skull sees its chance and takes a few painful bites out of you.",
+                    "You simply walk away from the torso-less skull.",
+                    "You failed to escape the skull in time before its attack and got bit."]
+
 #Different states of charactor
 key = 0 #Turns into 1 if they have it
 firstTimeMausoleum = True #Locks the door
 onward = 0 #For the cave. The number of times they've gone south. Once they hit two they leave.
 gruCounter = 0 #If they wonder in the caves for over 7 moves, they get a little supprise :)
+inventory = []
+
 
 def help():
     print("""
@@ -332,20 +384,14 @@ def tWriting():
   t.penup()
   t.goto(-400, -200)
   t.pendown()
-    
-# enemy encounter, not even close to done
-enemy_name = "Zombie"
-enemy_health = 10
 
-user_health = 25
-
-def enemy_encounter():
-    print("A fierce-looking zombie appears, with only one thing on it's mind, you.")
-
+# enemy encounter, which is all based off the "zork clone data tables" document
+def enemy_encounter(_data):
+    alreadyDefend = False
+    enemy = True
+    print(_data[2])
     #loop
-    while monster_health > 0 and user_health > 0:
-        print(f"The {enemy_name} has {enemy_health} health.")
-        print(f"You have {user_health} health.")
+    while enemy:
 
         #display what the player can do
         print("---------")
@@ -354,44 +400,73 @@ def enemy_encounter():
         print("3. Defend")
 
         #ask what the player wants to do
-        answer = int(input("What would you like to do? (1, 2 or 3) "))
+        answer = input("What would you like to do? (1, 2 or 3): ")
+        print("---------")
 
         #if player chooses to attack
         if answer == "1":
             #display users inventory
-
+            print("-----Inventory-----")
+            print(inventory)
             #asking what item in the inventory to use
-            itemUsed = int(input("What item would you like to attack the {enemy_name} with?"))
-
-            #if item is correct, enemy is no more?
-    
-            #if item chosen is bad one, user has to flee
-            userFlee()
-        
+            itemUsed = input(f"What item would you like to attack the {_data[1]} with? ")
+            #if item is correct, enemy is no more
+            if itemUsed == _data[0]:
+                print(_data[3])
+                enemy = False
+                break
+            # if an item is not recognized by the game in the inventory
+            elif itemUsed not in inventory:
+                print("Please pick an item in your inventory (Case Sensitive)")
+            # if item chosen is bad one, user has to flee
+            else:
+               userFlee(_data)
+               enemy = False
+                
         #if player chooses to flee
         if answer == "2":
-            userFlee()
+            userFlee(_data)
+            break
         
         #if player chooses to defend
         if answer == "3":
-            escape = random.randint(0, 1)
-            if escape == 0:
-                death = random.randint(0,4)
-                if death  == 0:
-                    print("you have died, game over")
-                    #back to menu with no resources or anything
-                else:
-                    #doc does not say?
+            # ensures that if the player has already chosen defend they cannot do it again
+            if alreadyDefend:
+                print(f"You have already defended yourself against the {_data[1]}. Pick another option.")
             else:
-                print(enemy_fleeingDesc_success)
+                alreadyDefend = True
+                # 50% chance of successful defend
+                defend = random.randint(0, 1)
+                if defend == 0:
+                # if defend hits 0, there is a 1 in 4 chance of dying
+                    death = random.randint(0,4)
+                    if death  == 0:
+                        print(_data[5] + "\nYou have Died, Game Over.")
+                        break
+                    else:
+                    # player gets injured, and another chance to attack or flee
+                        print(_data[5] + "\nYou are injured.")
 
-def userFlee():
+                else:
+                    print(_data[4])
+                    break
+
+        else:
+            #if 1 2 or 3 arent chosen
+            print("Please choose a valid answer (1, 2 or 3): ")
+    print("---------")
+
+def userFlee(_data):
+        print("You attempt to flee.")
         # choose 0 or 1 at random, to give a 50% chance to successfully flee or not
         escape = random.randint(0, 1)
         if escape == 0:
-            print(enemy_fleeingDesc_failed)
+            print(_data[6])
+
         else:
-            print(enemy_fleeingDesc_success)
+            # flee failure, user dies
+            print(_data[7] + " You have Died, Game Over.")
+
 
 cemetery()
 #church()
