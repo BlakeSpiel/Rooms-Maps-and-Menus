@@ -111,33 +111,30 @@ You see a small church towards the east of the cemetery through the thick fog. T
             t.right(90)
 
     def menu():
-        menuInput = input().lower()
+        while True:
+            menuInput = input().lower()
 
-        if 'south' in menuInput:
-            print("You enter the half collapsed church.")
-            church()
-        elif 'west' in menuInput and key == 1:
-            print("You twist the key into the lock and with little effort, you're able to push the doors open.")
-            mausoleum()
-        elif 'west' in menuInput and key == 0:
-            print("You attempt to open the doors but they won't budge. The key must be around here somewhere.")
-            menu()
-        elif 'north' in menuInput or 'east' in menuInput:
-            print("The fog is too thick to see anything worth investigating, Grues might be lurking around in the deep fog too, so its best to keep in well lit areas.")
-            menu()
-        elif 'look' in menuInput:
-            description()
-            menu()
-        elif 'help' in menuInput:
-            help()
-            menu()
-        else:
-            huh()
-            menu()
-
+            if 'south' in menuInput:
+                print("You enter the half collapsed church.")
+                church()
+            elif 'west' in menuInput and key == 1:
+                print("You twist the key into the lock and with little effort, you're able to push the doors open.")
+                mausoleum()
+            elif 'west' in menuInput and key == 0:
+                print("You attempt to open the doors but they won't budge. The key must be around here somewhere.")
+            elif 'north' in menuInput or 'east' in menuInput:
+                print("The fog is too thick to see anything worth investigating, Grues might be lurking around in the deep fog too, so its best to keep in well lit areas.")
+                menu()
+            elif 'look' in menuInput:
+                description()
+            elif 'help' in menuInput:
+                help()
+            else:
+                huh()
     map()
     tWriting()
     description()
+    enemy_encounter(evilBob_data)
     menu()
 
 def church():
@@ -169,28 +166,24 @@ through the cracks in the roof. It looks as if the building could fall apart at 
         t.right(180)
 
     def menu():
-        global key
-        menuInput = input().lower()
+        while True:
+            global key
+            menuInput = input().lower()
 
-        if 'north' in menuInput:
-            print("You walk back to the eery cemetery.")
-            cemetery()
-        elif 'south' in menuInput or 'east' in menuInput or 'west' in menuInput:
-            print("The only exit you can find is through the grand church door you just walked through.")
-            menu()
-        elif 'key' in menuInput and 'pickup' in menuInput:
-            print("You pick up the skeleton key.")
-            key += 1
-            menu()
-        elif 'look' in menuInput:
-            description()
-            menu()
-        elif 'help' in menuInput:
-            help()
-            menu()
-        else:
-            huh()
-            menu()
+            if 'north' in menuInput:
+                print("You walk back to the eery cemetery.")
+                cemetery()
+            elif 'south' in menuInput or 'east' in menuInput or 'west' in menuInput:
+                print("The only exit you can find is through the grand church door you just walked through.")
+            elif 'key' in menuInput and 'pickup' in menuInput:
+                print("You pick up the skeleton key.")
+                key += 1
+            elif 'look' in menuInput:
+                description()
+            elif 'help' in menuInput:
+                help()
+            else:
+                huh()
 
     map()
     tWriting()
@@ -244,25 +237,21 @@ You're now in the mausoleum. You see rows of shelving all holding old earns. Alo
             t.forward(25)
 
     def menu():
-        menuInput = input().lower()
+        while True:
+            menuInput = input().lower()
 
-        if 'down' in menuInput:
-            catacombs()
-        elif 'east' in menuInput:
-            print("You're stomache turns knots as your attempts to open the now locked door prove unsuccessfull.")
-            menu()
-        elif 'north' in menuInput or 'east' in menuInput or 'west' in menuInput:
-            print("You have no urge to look any longer than you already have at the tombs to you're right and left.")
-            menu()
-        elif 'look' in menuInput:
-            description()
-            menu()
-        elif 'help' in menuInput:
-            help()
-            menu()
-        else:
-            huh()
-            menu()
+            if 'down' in menuInput:
+                catacombs()
+            elif 'east' in menuInput:
+                print("You're stomache turns knots as your attempts to open the now locked door prove unsuccessfull.")
+            elif 'north' in menuInput or 'east' in menuInput or 'west' in menuInput:
+                print("You have no urge to look any longer than you already have at the tombs to you're right and left.")
+            elif 'look' in menuInput:
+                description()
+            elif 'help' in menuInput:
+                help()
+            else:
+                huh()
 
     map()
     tWriting()
@@ -297,38 +286,31 @@ The vast hallway looks the exact same as the others. It would be very easy to ge
     def menu(): #I wanted to make it feel like you can get lost, but all you need to do is head south twice in a row. Going in any other direction just pretends like you're moving.
         global onward
         global gruCounter
-        menuInput = input().lower()
-
-        while onward < 2 and gruCounter < 6:
-            if 'north' in menuInput and onward == 0:
-                mausoleum()
-            elif 'north' in menuInput and onward > 0:
-                gruCounter += 1
-                "This isnt right. I'm horribly lost."
-                menu()
-            elif 'south' in menuInput:
-                onward += 1
-                print("It's very hard to tell if I've been here already.")
-                menu()
-            elif 'east' in menuInput:
-                gruCounter += 1
-                print("Have I been here? The walls all look the same.")
-                menu()
-            elif 'west' in menuInput:
-                gruCounter += 1
-                print("How do I get out of here.")
-                menu()
-            elif 'look' in menuInput:
-                description()
-                menu()
-            elif 'help' in menuInput:
-                help()
-                menu()
-            else:
-                huh()
-                menu()
-        print("That looks different. This door must be my way out of here.")
-        lair()
+        while True:
+            while onward < 2 and gruCounter < 6:
+                menuInput = input().lower()
+                if 'north' in menuInput and onward == 0:
+                    mausoleum()
+                elif 'north' in menuInput and onward > 0:
+                    gruCounter += 1
+                    "This isnt right. I'm horribly lost."
+                elif 'south' in menuInput:
+                    onward += 1
+                    print("It's very hard to tell if I've been here already.")
+                elif 'east' in menuInput:
+                    gruCounter += 1
+                    print("Have I been here? The walls all look the same.")
+                elif 'west' in menuInput:
+                    gruCounter += 1
+                    print("How do I get out of here.")
+                elif 'look' in menuInput:
+                    description()
+                elif 'help' in menuInput:
+                    help()
+                else:
+                    huh()
+            print("That looks different. This door must be my way out of here.")
+            lair()
 
     map()
     tWriting()
@@ -356,23 +338,20 @@ Against your gut, you open the door, and you enter a giant vast lair that is wel
             t.left(45)
     
     def menu():
-        menuInput = input().lower()
+        while True:
+            menuInput = input().lower()
 
-        if 'talk' in menuInput:
-            print("Dialog")
-            #BobbyFight()
-        elif 'north' in menuInput or 'south' in menuInput or 'east' in menuInput or 'west' in menuInput:
-            print("What is Bobby doing here? I should go talk to him.")
-            menu()
-        elif 'look' in menuInput:
-            description()
-            menu()
-        elif 'help' in menuInput:
-            help()
-            menu()
-        else:
-            huh()
-            menu()
+            if 'talk' in menuInput:
+                enemy_encounter(evilBob_data)
+                #Win() Put a function here for after the fight
+            elif 'north' in menuInput or 'south' in menuInput or 'east' in menuInput or 'west' in menuInput:
+                print("What is Bobby doing here? I should go talk to him.")
+            elif 'look' in menuInput:
+                description()
+            elif 'help' in menuInput:
+                help()
+            else:
+                huh()
 
     map()
     tWriting()
