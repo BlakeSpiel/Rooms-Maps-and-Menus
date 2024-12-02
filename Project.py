@@ -134,7 +134,6 @@ You see a small church towards the east of the cemetery through the thick fog. T
     map()
     tWriting()
     description()
-    enemy_encounter(evilBob_data)
     menu()
 
 def church():
