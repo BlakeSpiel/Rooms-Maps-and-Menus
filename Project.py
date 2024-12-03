@@ -1,6 +1,7 @@
 #INITALIZING THE TURTLE FOR USE LATER
 import turtle
 import random
+import time
 screen = turtle.Screen()
 screen.title("Finding Bob")
 screen.setup(width=800, height=600)
@@ -10,7 +11,7 @@ t.speed(0)
 t.hideturtle()
 
 # WeaponNeeded, Enemy, Enemy Description, Attacking Description, Defend Description, Attacked Description, Fleeing Description (Success), Fleeing Description (Failure)
-zombie_data = ["Shovel",
+zombie_data = ["shovel",
                "Zombie",
                "A fierce looking zombie appears, with only one thing on its mind, you.",
                "With one fast motion of your Shovel, the zombie is no more",
@@ -40,16 +41,16 @@ bob_data = ["3",
 
 evilBob_data = ["N/A",
                 "Evil Bob",
-                "Bob's true intentions come to light,"
-                "Bob has been serial killer X-wing all along!",
-                "With adrenaline rushing through your body, you use all your might to [WEAPON_ACTION] at Bob"
+                "Bob's true intentions come to light, "
+                "Bob has been serial killer X-wing all along! \nThere is no room for error.",
+                "With adrenaline rushing through your body, you use all your might to [WEAPON_ACTION] at Bob",
                 "You take the backpack off your back and use it as a shield against Bob’s knife that will surely give you tetanus. Lucky enough, the knife gets stuck in the ball of lint in the backpack",
                 "Your once friend uses his rusty knife to slash into your chest.",
-                "N/A",
                 "The door slams shut behind you,"
-                " there is no escaping."]
+                " there is no escaping.",
+                "Your once friend uses his rusty knife to slash into your chest."]
 
-movingSkull_data = ["Crowbar",
+movingSkull_data = ["crowbar",
                     "Moving Skull",
                     "Before your eyes, a moving skull, watching you and preparing to bite.",
                     "The skull shatters into pieces upon contact with your Crowbar.",
@@ -58,20 +59,26 @@ movingSkull_data = ["Crowbar",
                     "You simply walk away from the torso-less skull.",
                     "You failed to escape the skull in time before its attack and got bit."]
 
+finalBattle_data = ["You quickly gobble up the Blueberry Pie as Bob attempts to lunge at you.",
+                    "Against your conscience, you lunge the firey spear at your best friend."
+                    "\nQuick! Bob is on fire charging at you with his rusty knife!",
+                    "Bob is struck with your Bat and falls to the ground"
+                    "\nYou know what you must do…"
+]
 #Different states of charactor
 key = 0 #Turns into 1 if they have it
 firstTimeMausoleum = True #Locks the door
 onward = 0 #For the cave. The number of times they've gone south. Once they hit two they leave.
-gruCounter = 0 #If they wonder in the caves for over 7 moves, they get a little supprise :)
-inventory = []
-
+gruCounter = 0 #If they wonder in the caves for over 7 moves, they get a little surprise :)
+inventory = ['Bare Hands', 'Blueberry Pie','Lighter', 'Spear', 'Bat', 'Revolver']
+enemy = False
 
 def help():
     print("""
     -----COMMANDS-----
     Navigation: North, South, East, West, Up, Down
     Combat: Attack, Run, Defend
-    Interaction: Look around, pickup (object name), 
+    Interaction: Look around, pickup (object name), Craft, Inventory 
     """)
 
 def huh():
@@ -112,7 +119,7 @@ You see a small church towards the east of the cemetery through the thick fog. T
 
     def menu():
         while True:
-            menuInput = input().lower()
+            menuInput = input().lower().strip()
 
             if 'south' in menuInput:
                 print("You enter the half collapsed church.")
@@ -125,6 +132,11 @@ You see a small church towards the east of the cemetery through the thick fog. T
             elif 'north' in menuInput or 'east' in menuInput:
                 print("The fog is too thick to see anything worth investigating, Grues might be lurking around in the deep fog too, so its best to keep in well lit areas.")
                 menu()
+            elif 'inventory' in menuInput:
+                print("-----Inventory-----")
+                print([item.lower() for item in inventory])  # Display inventory in lowercase
+            elif 'craft' in menuInput:
+                craft_items()
             elif 'look' in menuInput:
                 description()
             elif 'help' in menuInput:
@@ -170,15 +182,28 @@ through the cracks in the roof. It looks as if the building could fall apart at 
             menuInput = input().lower()
 
             if 'north' in menuInput:
-                print("You walk back to the eery cemetery.")
+                print("You walk back to the eery cemetery.\nYou smell a sweet scent coming from a room in the back of the church.")
                 cemetery()
-            elif 'south' in menuInput or 'east' in menuInput or 'west' in menuInput:
+            elif 'east' in menuInput or 'west' in menuInput:
                 print("The only exit you can find is through the grand church door you just walked through.")
+            elif 'south' in menuInput:
+                print("You see a Blueberry Pie, freshly baked, it looks delicious but suspicious.")
+            elif 'blueberry pie' in menuInput and 'pickup' in menuInput:
+                if 'blueberry pie' not in inventory:
+                    print("You pick up the delicious Blueberry Pie")
+                    inventory.append('blueberry pie')
+                else:
+                    print("The Blueberry Pie is already in your inventory.")
             elif 'key' in menuInput and 'pickup' in menuInput:
                 print("You pick up the skeleton key.")
                 key += 1
             elif 'look' in menuInput:
                 description()
+            elif 'inventory' in menuInput:
+                print("-----Inventory-----")
+                print([item.lower() for item in inventory])  # Display inventory in lowercase
+            elif 'craft' in menuInput:
+                craft_items()
             elif 'help' in menuInput:
                 help()
             else:
@@ -247,6 +272,11 @@ You're now in the mausoleum. You see rows of shelving all holding old earns. Alo
                 print("You have no urge to look any longer than you already have at the tombs to you're right and left.")
             elif 'look' in menuInput:
                 description()
+            elif 'inventory' in menuInput:
+                print("-----Inventory-----")
+                print([item.lower() for item in inventory])  # Display inventory in lowercase
+            elif 'craft' in menuInput:
+                craft_items()
             elif 'help' in menuInput:
                 help()
             else:
@@ -302,6 +332,11 @@ The vast hallway looks the exact same as the others. It would be very easy to ge
                 elif 'west' in menuInput:
                     gruCounter += 1
                     print("How do I get out of here.")
+                elif 'inventory' in menuInput:
+                    print("-----Inventory-----")
+                    print([item.lower() for item in inventory])  # Display inventory in lowercase
+                elif 'craft' in menuInput:
+                    craft_items()
                 elif 'look' in menuInput:
                     description()
                 elif 'help' in menuInput:
@@ -335,20 +370,25 @@ Against your gut, you open the door, and you enter a giant vast lair that is wel
         for i in range(8):
             t.forward(70)
             t.left(45)
-    
+
     def menu():
         while True:
             menuInput = input().lower()
 
             if 'talk' in menuInput:
-                enemy_encounter(evilBob_data)
-                #Win() Put a function here for after the fight
+                bobFight()
             elif 'north' in menuInput or 'south' in menuInput or 'east' in menuInput or 'west' in menuInput:
                 print("What is Bobby doing here? I should go talk to him.")
             elif 'look' in menuInput:
                 description()
+            elif 'inventory' in menuInput:
+                print("-----Inventory-----")
+                print([item.lower() for item in inventory])  # Display inventory in lowercase
+            elif 'craft' in menuInput:
+                craft_items()
             elif 'help' in menuInput:
                 help()
+
             else:
                 huh()
 
@@ -357,11 +397,75 @@ Against your gut, you open the door, and you enter a giant vast lair that is wel
     description()
     menu()
 
+
 #Places the cursor on the bottom for text
 def tWriting():
   t.penup()
   t.goto(-400, -200)
   t.pendown()
+
+
+
+def displayInventory(_data):
+    # Display user's inventory
+    loop = True
+    while loop:
+        print("-----Inventory-----")
+        print([item.lower() for item in inventory])  # Display inventory in lowercase
+        # Ask what item in the inventory to use
+        itemUsed = input(f"What item would you like to attack the {_data[1]} with? ").strip().lower()
+        # Check if the item exists in inventory
+        if itemUsed not in [item.lower() for item in inventory]:
+            print("Please pick an item in your inventory (Case Insensitive)")
+        elif itemUsed == _data[0].lower():
+            print(_data[3])
+            break
+        else:
+            print("write extra stuff")  # FIX THIS LATER
+            userFlee(_data)
+            break
+
+
+def craft_items():
+    """Allows the user to craft items."""
+    global inventory
+    print("What two items would you like to craft together?")
+    item1 = input("Enter the first item: ").strip().lower()
+    item2 = input("Enter the second item: ").strip().lower()
+
+
+def craft_items():
+    """Allows the user to craft items."""
+    global inventory
+    print("What two items would you like to craft together?")
+    item1 = input("Enter the first item: ").strip().lower()
+    item2 = input("Enter the second item: ").strip().lower()
+
+    # Check if both items are in the inventory
+    if item1 in [item.lower() for item in inventory] and item2 in [item.lower() for item in inventory]:
+        crafted = False  # Track whether an item was successfully crafted
+
+        # Check specific crafting recipes
+        if (item1 == "lighter" and item2 == "spear") or (item1 == "spear" and item2 == "lighter"):
+            print("You light the end of the spear and it engulfs in flames. You are a force to be reckoned with.")
+            inventory.remove("Spear")
+            inventory.remove("Lighter")
+            inventory.append("Fiery Spear")
+            crafted = True
+
+        if (item1 == "bone fragments" and item2 == "stick") or (item1 == "stick" and item2 == "bone fragments"):
+            print(
+                "You combine your stick and a fragment of the skull to craft a mighty spear, this will be a formidable weapon.")
+            inventory.remove("Stick")
+            inventory.remove("Bone Fragments")
+            inventory.append("Spear")
+            crafted = True
+
+        if not crafted:
+            print("Those items cannot be crafted together.")
+    else:
+        print("You don't have the necessary items to craft that.")
+
 
 # enemy encounter, which is all based off the "zork clone data tables" document
 def enemy_encounter(_data):
@@ -384,28 +488,14 @@ def enemy_encounter(_data):
         #if player chooses to attack
         if answer == "1":
             #display users inventory
-            print("-----Inventory-----")
-            print(inventory)
-            #asking what item in the inventory to use
-            itemUsed = input(f"What item would you like to attack the {_data[1]} with? ")
-            #if item is correct, enemy is no more
-            if itemUsed == _data[0]:
-                print(_data[3])
-                enemy = False
-                break
-            # if an item is not recognized by the game in the inventory
-            elif itemUsed not in inventory:
-                print("Please pick an item in your inventory (Case Sensitive)")
-            # if item chosen is bad one, user has to flee
-            else:
-               userFlee(_data)
-               enemy = False
-                
+            displayInventory(_data)
+            break
+
         #if player chooses to flee
         if answer == "2":
             userFlee(_data)
             break
-        
+
         #if player chooses to defend
         if answer == "3":
             # ensures that if the player has already chosen defend they cannot do it again
@@ -434,6 +524,7 @@ def enemy_encounter(_data):
             print("Please choose a valid answer (1, 2 or 3): ")
     print("---------")
 
+
 def userFlee(_data):
         print("You attempt to flee.")
         # choose 0 or 1 at random, to give a 50% chance to successfully flee or not
@@ -446,11 +537,99 @@ def userFlee(_data):
             print(_data[7] + " You have Died, Game Over.")
 
 
-cemetery()
+def bobFight():
+    alreadyDefend = False
+    enemy = True
+    evilBob = False
+    action_sequence = ["blueberry pie", "fiery spear", "bat", "revolver"]
+    current_step = 0
+
+    print("...")
+    while enemy:
+        # Display what the player can do
+        print("---------")
+        print("1. Attack")
+        print("2. Run")
+        print("3. Defend")
+
+        # Ask what the player wants to do
+        answer = input("What would you like to do? (1, 2 or 3): ").strip()
+        print("---------")
+
+        # If player chooses to attack
+        if answer == "1":
+            if not evilBob:
+                print(bob_data[3])
+            else:
+                if current_step < len(action_sequence):
+                    print("-----Inventory-----")
+                    print([item.lower() for item in inventory])  # Display inventory in lowercase for consistency
+                    item_used = input(f"What item would you like to attack Bob with? ").strip().lower()
+                    if item_used == action_sequence[current_step]:
+                        if not current_step == len(action_sequence) - 1:
+                            print(finalBattle_data[current_step])
+                        current_step += 1
+                        if current_step == len(action_sequence):
+                            gameEnd()
+                            enemy = False
+                    else:
+                        print(evilBob_data[5] + " You have Died, Game Over.")
+                        break
+                else:
+                    gameEnd()
+                    enemy = False
+
+        # If player chooses to flee, turns Bob into Evil Bob and the fight begins
+        elif answer == "2":
+            if not evilBob:
+                print(evilBob_data[2])  # Bob reveals himself as Evil Bob
+                evilBob = True
+            else:
+                print(evilBob_data[6])
+
+        # If player chooses to defend
+        elif answer == "3":
+            if not evilBob:
+                print(bob_data[4])  # Defending against Bob does nothing
+            else:
+                # ensures that if the player has already chosen defend they cannot do it again
+                if alreadyDefend:
+                    print(f"The backpack isn't enough this time. You feel the rusty knife fly into you.\nYou have Died, Game Over.")
+                    break
+                else:
+                    alreadyDefend = True
+                    print(evilBob_data[4])  # Use the backpack as a shield against Evil Bob
+
+        else:
+            # If 1, 2, or 3 aren't chosen
+            print("Please choose a valid answer (1, 2, or 3).")
+        print("---------")
+
+
+def gameEnd():
+    for i in range(10):
+        print("                         ")
+    print(".")
+    time.sleep(2)
+    print("..")
+    time.sleep(1)
+    print("...")
+    time.sleep(0.5)
+    print("....")
+    time.sleep(0.25)
+    print(".....Bob is Dead")
+    time.sleep(1)
+    print("You win, but at what cost")
+    time.sleep(3)
+
+#craft_items()
+#enemy_encounter(zombie_data)
+#bobFight()
+#cemetery()
 #church()
 #mausoleum()
 #catacombs()
 #lair()
 
 #Keeps the turtle menu on the screen
-turtle.mainloop()
+#turtle.mainloop()
