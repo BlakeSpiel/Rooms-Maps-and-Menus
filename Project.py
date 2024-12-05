@@ -487,9 +487,10 @@ def craft_items():
 def craft_items():
     """Allows the user to craft items."""
     global inventory
-    t2.write("What two items would you like to craft together?")
+    t2.write("""What two items would you like to craft together?""")
     item1 = turtle.textinput("Input Command","Enter the first item: ").strip().lower()
     item2 = turtle.textinput("Input Command", "Enter the second item: ").strip().lower()
+    t2.clear()
 
     # Check if both items are in the inventory
     if item1 in [item.lower() for item in inventory] and item2 in [item.lower() for item in inventory]:
