@@ -17,7 +17,7 @@ t2.hideturtle()
 # WeaponNeeded, Enemy, Enemy Description, Attacking Description, Defend Description, Attacked Description, Fleeing Description (Success), Fleeing Description (Failure)
 zombie_data = ["shovel",
                "Zombie",
-               "A fierce looking zombie appears, with only one thing on its mind, you.",
+               "A fierce-looking zombie appears, with only one thing on its mind, you.",
                "With one fast motion of your Shovel, the zombie is no more",
                "The zombie attempts to hit you with a bat, and it hits itself and perishes.",
                "The zombie rushes you and starts viciously biting you",
@@ -91,13 +91,13 @@ def huh():
     t2.write("I'm sorry, I didn't get that. If you need help with commands just type Help.")
 
 
-# TURTLE FUNCTIONS FOR EVERY ROOMS MENU, MAP, AND DESRIPTION.
+# TURTLE FUNCTIONS FOR EVERY ROOM MENU, MAP, AND DESCRIPTION.
 def cemetery():
     t.clear()  # Clearing the room and description on screen for this room
 
     def description():
         t.write("""
-Here you are, in a cemetery. You find graves and a mausoleum to the west, all of which is enclosed by a picket fence. 
+Here you are, in a cemetery. You find graves and a mausoleum to the west, all enclosed by a picket fence. 
 You are unable to see the end of the cemetery from where you are standing. Walking back toward the entrance the fog thins out 
 As you venture into the cemetery the fog gets thicker, and you feel as if you are being watched. 
 You see a small church towards the east of the cemetery through the thick fog. There are nothing but dead trees and graves around.
@@ -142,7 +142,7 @@ After walking in, a large gust of wind slams the door behind you.
             elif 'north' in menuInput or 'east' in menuInput:
                 t2.write("""
 The fog is too thick to see anything worth investigating, Grues might be lurking around in 
-the deep fog too, so its best to keep in well lit areas.""")
+the deep fog too, so it's best to keep in well-lit areas.""")
                 menu()
             elif "shovel" in menuInput and "pickup" in menuInput:
                 if "shovel" not in inventory:
@@ -284,15 +284,15 @@ def mausoleum():
                 catacombs()
             elif 'east' in menuInput:
                 t2.write(
-                    "You're stomache turns knots as your attempts to open the now locked door prove unsuccessfull.")
-            elif 'north' in menuInput or 'east' in menuInput or 'west' in menuInput:
+                    "Your stomach turns knots as your attempts to open the now locked door prove unsuccessful.")
+            elif 'north' in menuInput or 'south' in menuInput or 'west' in menuInput:
                 t2.write(
                     "You have no urge to look any longer than you already have at the tombs to you're right and left.")
             elif "pickup" in menuInput and "dust" in menuInput:
                 if 'lighter' not in inventory:
                     t2.write(
                         """
-                        The pile of dust has something under it. It is a old, very used lighter.
+                        The pile of dust has something under it. It is an old, very used lighter.
                         The lighter used to belong to a man who was buried in the cemetery. 
                         Rumor has it he was buried with his revolver.
                         """)
@@ -454,7 +454,7 @@ tWrote()
 
 
 def displayInventory(_data):
-    # Display user's inventory
+    # Display the user's inventory
     loop = True
     while loop:
         t2.write(f"""
@@ -464,7 +464,7 @@ What item would you like to attack the {_data[1]} with? """)  # Display inventor
         # Ask what item in the inventory to use
         itemUsed = turtle.textinput("Input Command", "What is your action?").lower().strip()
         t2.clear()
-        # Check if the item exists in inventory
+        # Check if the item exists in the inventory
         if itemUsed not in [item.lower() for item in inventory]:
             t2.write("Please pick an item in your inventory (Case Insensitive)")
         elif itemUsed == _data[0].lower():
@@ -517,7 +517,7 @@ def craft_items():
         t2.write("You don't have the necessary items to craft that.")
 
 
-# enemy encounter, which is all based off the "zork clone data tables" document
+# enemy encounter, which is all based on the "Zork clone data tables" document
 def enemy_encounter(_data):
     global randomEncounter
     randomEncounter = 1
@@ -553,7 +553,7 @@ def enemy_encounter(_data):
 
         # if player chooses to defend
         if answer == "defend":
-            # ensures that if the player has already chosen defend they cannot do it again
+            # ensures that if the player has already chosen to defend they cannot do it again
             if alreadyDefend:
                 t2.write(f"You have already defended yourself against the {_data[1]}. Pick another option.")
             else:
@@ -608,7 +608,7 @@ What would you like to do? (Attack, Run, or Defend):
         answer = turtle.textinput("Input Command", "What is your action?").lower()
         t2.clear()
 
-        # If player chooses to attack
+        # If the player chooses to attack
         if answer == "attack":
             t2.clear()
             if not evilBob:
@@ -618,7 +618,7 @@ What would you like to do? (Attack, Run, or Defend):
                     t2.write(f"""
 -----Inventory-----
 {[item.lower() for item in inventory]}
-What item would you like to attack bob with?""")
+What item would you like to attack Bob with?""")
                     item_used = turtle.textinput("Input Command", "What is your action?").lower
                     t2.clear()
 
@@ -636,7 +636,7 @@ What item would you like to attack bob with?""")
                     gameEnd()
                     enemy = False
 
-        # If player chooses to flee, turns Bob into Evil Bob and the fight begins
+        # If the player chooses to flee, turn Bob into Evil Bob and the fight begins
         elif answer == "run":
             t2.clear()
             if not evilBob:
@@ -645,13 +645,13 @@ What item would you like to attack bob with?""")
             else:
                 t2.write(evilBob_data[6])
 
-        # If player chooses to defend
+        # If the player chooses to defend
         elif answer == "defend":
             t2.clear()
             if not evilBob:
                 t2.write(bob_data[4])  # Defending against Bob does nothing
             else:
-                # ensures that if the player has already chosen defend they cannot do it again
+                # ensures that if the player has already chosen to defend they cannot do it again
                 if alreadyDefend:
                     t2.write(
                         f"The backpack isn't enough this time. You feel the rusty knife fly into you.\nYou have Died, Game Over.")
@@ -662,7 +662,7 @@ What item would you like to attack bob with?""")
 
         else:
             # If 1, 2, or 3 aren't chosen
-            t2.write("Please choose a valid answer (1, 2, or 3).")
+            t2.write("Please choose a valid answer (Attack, Run, Defend).")
 
 
 def gameEnd():
