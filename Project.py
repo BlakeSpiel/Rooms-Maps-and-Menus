@@ -96,13 +96,11 @@ def cemetery():
     t.clear()  # Clearing the room and description on screen for this room
 
     def description():
-        t.write("""
-Here you are, in a cemetery. You find graves and a mausoleum to the west, all enclosed by a picket fence. 
+        t.write("""Here you are, in a cemetery. You find graves and a mausoleum to the west, all enclosed by a picket fence. 
 You are unable to see the end of the cemetery from where you are standing. Walking back toward the entrance the fog thins out 
 As you venture into the cemetery the fog gets thicker, and you feel as if you are being watched. 
 You see a small church towards the east of the cemetery through the thick fog. There are nothing but dead trees and graves around.
-You notice a shovel along the wall of the small church.
-""")
+You notice a shovel along the wall of the small church.""")
 
     def map():
         t.penup()
@@ -342,10 +340,9 @@ def catacombs():
         global onward
         global gruCounter
 
-        randomEncounter = random.randint(0, 4)
-
 
         while True:
+            randomEncounter = random.randint(0, 4)
             if randomEncounter == 0:
                 enemy_encounter(movingSkull_data)
 
@@ -538,13 +535,20 @@ def enemy_encounter(_data):
 
         if answer == "attack":
             displayInventory(_data)  # Display the player's inventory for attack selection
-            t2.write(f"You defeated the {_data[1]}!")
+            t2.write(f"""You defeated the {_data[1]}!
+                     
+
+                     """)
             # Drop the item associated with the enemy
             if _data[8] not in inventory:
                 inventory.append(_data[8])
-                t2.write(f"The {_data[1]} dropped a {_data[8]}. It has been added to your inventory.")
+                t2.write(f"""The {_data[1]} dropped a {_data[8]}. It has been added to your inventory.
+                         
+                         """)
             else:
-                t2.write(f"The {_data[1]} dropped a {_data[8]}, but you already have one.")
+                t2.write(f"""The {_data[1]} dropped a {_data[8]}, but you already have one.
+                         
+                         """)
             enemy = False
             break
 
@@ -688,7 +692,7 @@ def gameEnd():
     t2.write("You win, but at what cost")
     time.sleep(3)
 
-
+enemy_encounter(movingSkull_data)
 # gameEnd()
 # craft_items()
 # enemy_encounter(zombie_data)
