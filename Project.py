@@ -692,7 +692,7 @@ def gameEnd():
     t2.write("You win, but at what cost")
     time.sleep(3)
 
-enemy_encounter(movingSkull_data)
+# enemy_encounter(movingSkull_data)
 # gameEnd()
 # craft_items()
 # enemy_encounter(zombie_data)
