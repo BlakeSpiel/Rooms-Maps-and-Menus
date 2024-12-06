@@ -468,8 +468,6 @@ What item would you like to attack the {_data[1]} with? """)  # Display inventor
             t2.write(_data[3])
             break
         else:
-            t2.write("write extra stuff")  # FIX THIS LATER
-            userFlee(_data)
             break
 
 
@@ -525,29 +523,25 @@ def enemy_encounter(_data):
     # Loop for combat actions
     while enemy:
         t2.clear()
-        t2.write(f"""
-                    {_data[2]}
-                    --------------------------------------------------------------
-                    What would you like to do? (Attack, Run, or Defend): 
-                    --------------------------------------------------------------""")
+        t2.write(f"""{_data[2]}
+--------------------------------------------------------------
+What would you like to do? (Attack, Run, or Defend): 
+--------------------------------------------------------------""")
         answer = turtle.textinput("Input Command", "What is your action?").lower()
         t2.clear()
 
         if answer == "attack":
             displayInventory(_data)  # Display the player's inventory for attack selection
             t2.write(f"""You defeated the {_data[1]}!
-                     
 
                      """)
             # Drop the item associated with the enemy
             if _data[8] not in inventory:
                 inventory.append(_data[8])
-                t2.write(f"""The {_data[1]} dropped a {_data[8]}. It has been added to your inventory.
-                         
+                t2.write(f"""The {_data[1]} dropped {_data[8]}. It has been added to your inventory.
                          """)
             else:
-                t2.write(f"""The {_data[1]} dropped a {_data[8]}, but you already have one.
-                         
+                t2.write(f"""The {_data[1]} dropped {_data[8]}, but you already have one.
                          """)
             enemy = False
             break
@@ -579,7 +573,6 @@ def enemy_encounter(_data):
                     t2.write(_data[4])
                     break
 
-
 def userFlee(_data):
     t2.write("""
 You attempt to flee.
@@ -592,6 +585,7 @@ You attempt to flee.
     else:
         # flee failure, user dies
         t2.write(_data[7] + " You have Died, Game Over.")
+
 
 
 def bobFight():
