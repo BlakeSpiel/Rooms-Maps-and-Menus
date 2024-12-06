@@ -543,58 +543,62 @@ def enemy_encounter(_data):
     alreadyDefend = False
     enemy = True
     t2.write(_data[2])  # Display enemy description
+
     # Loop for combat actions
     while enemy:
         t2.clear()
-        t2.write(f"""{_data[2]}
---------------------------------------------------------------
-What would you like to do? (Attack, Run, or Defend): 
---------------------------------------------------------------""")
+        t2.write(f"""
+                        {_data[2]}
+                        --------------------------------------------------------------
+                        What would you like to do? (Attack, Run, or Defend): 
+                        --------------------------------------------------------------""")
         answer = turtle.textinput("Input Command", "What is your action?").lower()
         t2.clear()
 
         if answer == "attack":
             displayInventory(_data)  # Display the player's inventory for attack selection
-            t2.write(f"""You defeated the {_data[1]}!
+            weapon_choice = turtle.textinput("Input Command", "Which weapon will you use?").lower()
 
-                     """)
-            # Drop the item associated with the enemy
-            if _data[8] not in inventory:
-                inventory.append(_data[8])
-                t2.write(f"""The {_data[1]} dropped {_data[8]}. It has been added to your inventory.
-                         """)
+            # Check if the correct weapon is used
+            if weapon_choice == _data[0]:
+                t2.write(f"""You defeated the {_data[1]} with your {_data[0]}!
+
+                             """)
+                # Drop the item associated with the enemy
+                if _data[8] not in inventory:
+                    inventory.append(_data[8])
+                    t2.write(f"""The {_data[1]} dropped a {_data[8]}. It has been added to your inventory.
+
+                                 """)
+                else:
+                    t2.write(f"""The {_data[1]} dropped a {_data[8]}, but you already have one.
+
+                                 """)
+                enemy = False
             else:
-                t2.write(f"""The {_data[1]} dropped {_data[8]}, but you already have one.
-                         """)
-            enemy = False
-            break
+                t2.write(f"""Your {weapon_choice} has no effect on the {_data[1]}. Try again!""")
 
         elif answer == "run":
             userFlee(_data)
             break
 
-        # if player chooses to defend
-        if answer == "defend":
-            # ensures that if the player has already chosen to defend they cannot do it again
+        elif answer == "defend":
             if alreadyDefend:
                 t2.write(f"You have already defended yourself against the {_data[1]}. Pick another option.")
             else:
                 alreadyDefend = True
-                # 50% chance of successful defend
-                defend = random.randint(0, 1)
+                defend = random.randint(0, 1)  # 50% chance of success
                 if defend == 0:
-                    # if defend hits 0, there is a 1 in 4 chance of dying
-                    death = random.randint(0, 4)
+                    death = random.randint(0, 4)  # 1 in 4 chance of dying
                     if death == 0:
                         t2.write(_data[5] + "\nYou have Died, Game Over.")
-                        break
+                        return # ends the game
                     else:
-                        # player gets injured, and another chance to attack or flee
                         t2.write(_data[5] + "\nYou are injured.")
-
                 else:
                     t2.write(_data[4])
                     break
+
 
 def userFlee(_data):
     t2.write("""
@@ -608,7 +612,6 @@ You attempt to flee.
     else:
         # flee failure, user dies
         t2.write(_data[7] + " You have Died, Game Over.")
-
 
 
 def bobFight():
@@ -641,19 +644,18 @@ What would you like to do? (Attack, Run, or Defend):
 -----Inventory-----
 {[item.lower() for item in inventory]}
 What item would you like to attack Bob with?""")
-                    item_used = turtle.textinput("Input Command", "What is your action?").lower
+                    item_used = turtle.textinput("Input Command", "What is your action?").lower()
                     t2.clear()
-
                     if item_used == action_sequence[current_step]:
                         if not current_step == len(action_sequence) - 1:
-                            t2.write(finalBattle_data[current_step])
+                            t2.write(finalBattle_data[current_step]) # attack successful
                         current_step += 1
-                        if current_step == len(action_sequence):
+                        if current_step == len(action_sequence): # bob is dead
                             gameEnd()
                             enemy = False
                     else:
-                        t2.write(evilBob_data[5] + " You have Died, Game Over.")
-                        break
+                        t2.write(evilBob_data[5] + " You have Died, Game Over.") # wrong item used
+                        return
                 else:
                     gameEnd()
                     enemy = False
@@ -677,7 +679,7 @@ What item would you like to attack Bob with?""")
                 if alreadyDefend:
                     t2.write(
                         f"The backpack isn't enough this time. You feel the rusty knife fly into you.\nYou have Died, Game Over.")
-                    break
+                    return
                 else:
                     alreadyDefend = True
                     t2.write(evilBob_data[4])  # Use the backpack as a shield against Evil Bob
