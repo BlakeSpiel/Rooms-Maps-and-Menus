@@ -38,8 +38,8 @@ grue_data = ["N/A",
 bob_data = ["3",
             "Bob",
             "It's Bobby!",
-            "Why would you attack your long-lost friend?",
-            "Defend against what?",
+            "I can't attack my best friend.",
+            "He would never really hurt me, Would he?.",
             "N/A",
             "N/A",
             "(Bob turns into evil Bob)"]
@@ -47,35 +47,35 @@ bob_data = ["3",
 evilBob_data = ["N/A",
                 "Evil Bob",
                 "Bob's true intentions come to light, "
-                "Bob has been serial killer X-wing all along! \nThere is no room for error.",
+                """Bob has been serial killer X-wing all along! \nI must make my attacks in percise order to finish this fight.""",
                 "With adrenaline rushing through your body, you use all your might to [WEAPON_ACTION] at Bob",
-                "You take the backpack off your back and use it as a shield against Bob’s knife that will surely give you tetanus. Lucky enough, the knife gets stuck in the ball of lint in the backpack",
+                """You take the backpack off your back and use it as a shield against Bob’s knife that will surely give you tetanus. \nLucky enough, the knife gets stuck in the ball of lint in the backpack""",
                 "Your once friend uses his rusty knife to slash into your chest.",
                 "The door slams shut behind you,"
-                " there is no escaping.",
-                "Your once friend uses his rusty knife to slash into your chest."]
+                "There is no escaping.",
+                "Your once friend uses his rusty knife to slash into your chest.",
+                "Bob slashes in the air narrowly missing. If I want to stay alive I must attack back."]
 
 movingSkull_data = ["crowbar",
                     "Moving Skull",
                     "Before your eyes, a moving skull, watching you and preparing to bite.",
                     "The skull shatters into pieces upon contact with your Crowbar.",
-                    "The skull attempts to bite you and crumbles into bone fragments. They are extremely sharp.",
+                    "The skull attempts to bite you and crumbles into bone fragment. They are extremely sharp.",
                     "You fail to defend yourself, and the skull sees its chance and takes a few painful bites out of you.",
                     "You simply walk away from the torso-less skull.",
                     "You failed to escape the skull in time before its attack and got bit.",
-                    "bone fragments"]
+                    "bone fragment"]
 
-finalBattle_data = ["You quickly gobble up the Blueberry Pie as Bob attempts to lunge at you.",
+finalBattle_data = ["You quickly gobble up the blueberry pie as Bob attempts to lunge at you.",
                     "Against your conscience, you lunge the firey spear at your best friend."
                     "\nQuick! Bob is on fire charging at you with his rusty knife!",
-                    "Bob is struck with your Bat and falls to the ground"
+                    "Bob is struck with your bat and falls to the ground"
                     "\nYou know what you must do…"
                     ]
 # Different states of charactor
 onward = 0  # For the cave. The number of times they've gone south. Once they hit two they leave.
-gruCounter = 0  # If they wonder in the caves for over 7 moves, they get a little surprise :)
-# inventory = ['Bare Hands', 'Skeleton Key', 'Blueberry Pie','Lighter', 'Spear', 'Bat', 'Revolver'] #This is all the things you can collect
-inventory = ['Bare Hands']
+# inventory = ['bare hands', 'stick', 'skeleton key', 'blueberry pie','lighter', 'spear', 'bat', 'revolver', 'fiery spear'] #This is all the things you can collect and use to craft
+inventory = ['bare hands', 'stick']
 enemy = False
 
 
@@ -89,26 +89,38 @@ Interaction: pickup (object name), Dig, Craft, Inventory """)
 
 
 def menu():
+    global onward
+    global inventory
     while True:
+        t.penup()
+        t.goto(-335, 70)
+        t.pendown()
+        t.write("FINDING BOB", font=("Arial", 70, "normal"))
+        tWriting()
+
+        t2.penup()
+        t2.goto(-350, -225)
+        t2.pendown()
         t2.write("""
 \nMenu
-1. Play Game
-2. Read Instructions
-3. Exit
-              """)
+1. Play Game    2. Read Instructions    3. Exit
+              """, font=("Arial", 20, "normal"))
+        tWrote()
+
         menuInput = turtle.textinput("Input Command", "What is your action?").lower().strip()
         t2.clear()
 
-        if menuInput == '1':
+        if menuInput == '1' or 'play' in menuInput:
+            onward = 0
+            inventory = ['bare hands', 'stick']
             cemetery()
-        elif menuInput == '2':
-            t2.penup()
-            t2.goto(-100, -250)
-            t2.pendown()
+        elif menuInput == '2' or 'instructions' in menuInput:
             help()
             tWrote()
-        elif menuInput == '3':
+        elif menuInput == '3' or 'exit' in menuInput:
             break
+        else:
+            t2.write("Please choose 1-3.")
 
 def huh():
     t2.write("I'm sorry, I didn't get that. If you need help with commands just type Help.")
@@ -140,10 +152,6 @@ You notice a shovel along the wall of the small church.""")
             t.forward(75)
             t.right(90)
 
-    randomEncounter = random.randint(0, 4)
-    if randomEncounter == 0:
-        enemy_encounter(zombie_data)
-
     def menu():
         while True:
             menuInput = turtle.textinput("Input Command", "What is your action?").lower().strip()
@@ -152,13 +160,13 @@ You notice a shovel along the wall of the small church.""")
             if 'south' in menuInput:
                 t2.write("You enter the half collapsed church.")
                 church()
-            elif 'west' in menuInput and 'Skeleton Key' in inventory:
+            elif 'west' in menuInput and 'skeleton key' in inventory:
                 t2.write("""You twist the key into the lock and with little effort, you're able to push the doors open.
 After walking in, a large gust of wind slams the door behind you.
                          
 """)
                 mausoleum()
-            elif 'west' in menuInput and 'Skeleton Key' not in inventory:
+            elif 'west' in menuInput and 'skeleton key' not in inventory:
                 t2.write("You attempt to open the doors but they won't budge. The key must be around here somewhere.")
             elif 'north' in menuInput or 'east' in menuInput:
                 t2.write("""The fog is too thick to see anything worth investigating, Grues might be lurking around in 
@@ -173,9 +181,8 @@ the deep fog too, so it's best to keep in well-lit areas.
                     t2.write("The shovel is already in your inventory.")
             elif 'shovel' in inventory and "dig" in menuInput:
                 if "revolver" not in inventory:
-                    t2.write("""
-                    You dig down and find a broken in casket with a skeleton and a revolver laying on top. 
-                    There is only 1 bullet, and it is likely to jam.
+                    t2.write("""You dig down and find a broken in casket with a skeleton and a revolver laying on top. 
+There is only 1 bullet, and it is likely to jam.
                     """)
                     inventory.append('revolver')
                 else:
@@ -227,22 +234,26 @@ through the cracks in the roof. It looks as if the building could fall apart at 
             menuInput = turtle.textinput("Input Command", "What is your action?").lower().strip()
             t2.clear()
 
-            if 'north' in menuInput:
+            if 'skeleton key' not in inventory and 'north' in menuInput:
                 t2.write("On your way out of the church you notice a small key hanging from a hook, it might be worth going back and grabbing it.")
+                cemetery()
+            if 'skeleton key' in inventory and 'north' in menuInput:
+                t2.write("You walk back into the eery cemetery.")
                 cemetery()
             elif 'blueberry pie' in inventory and ('east' in menuInput or 'west' in menuInput or 'south' in menuInput):
                 t2.write("I wonder where that pie came from.")
             elif 'east' in menuInput or 'west' in menuInput or 'south' in menuInput:
-                t2.write("You see a Blueberry Pie, freshly baked, it looks delicious but suspicious.")
+                t2.write("You see a blueberry pie, freshly baked, it looks delicious but suspicious.")
             elif 'pie' in menuInput and 'pickup' in menuInput:
                 if 'blueberry pie' not in inventory:
-                    t2.write("You pick up the delicious Blueberry Pie")
+                    t2.write("You pick up the delicious blueberry pie")
                     inventory.append('blueberry pie')
                 else:
-                    t2.write("The Blueberry Pie is already in your inventory.")
-            elif 'key' in menuInput and 'pickup' in menuInput:
-                t2.write("You grab the skeleton key from its hook.")
-                inventory.append('Skeleton Key')
+                    t2.write("The blueberry pie is already in your inventory.")
+            elif 'skeleton key' not in inventory and ('key' in menuInput and 'pickup' in menuInput):
+                enemy_encounter(zombie_data)   
+                t2.write("""You grab the skeleton key from its hook.""")
+                inventory.append('skeleton key')
             elif 'inventory' in menuInput:
                 t2.write(f"""
 -----Inventory-----
@@ -268,10 +279,9 @@ def mausoleum():
 
     def description():
         t.write(
-            """
-            The mausoleum. Shelves with earns and old caskets surround you. 
-            Along the north wall is a flimsy ladder leading into darkness.
-            There is a pile of dust in the corner.
+            """The mausoleum. Shelves with earns and old caskets surround you. 
+Along the north wall is a flimsy ladder leading into darkness.
+There is a pile of dust in the corner.
             """)
 
     def map():
@@ -311,10 +321,9 @@ def mausoleum():
             elif "pickup" in menuInput and "dust" in menuInput:
                 if 'lighter' not in inventory:
                     t2.write(
-                        """
-                        The pile of dust has something under it. It is an old, very used lighter.
-                        The lighter used to belong to a man who was buried in the cemetery. 
-                        Rumor has it he was buried with his revolver.
+                        """The pile of dust has something under it. It is an old, very used lighter.
+The lighter used to belong to a man who was buried in the cemetery. 
+Rumor has it he was buried with his revolver.
                         """)
                     inventory.append('lighter')
                 else:
@@ -386,11 +395,16 @@ def catacombs():
                 elif 'east' in menuInput:
                     gruCounter += 1
                     t2.write("Have I been here? The walls all look the same.")
+                    randomEncounter = random.randint(0, 2)
+                    if randomEncounter == 0:
+                        enemy_encounter(movingSkull_data)
                     randomEncounter = random.randint(0, 4)
                 elif 'west' in menuInput:
                     gruCounter += 1
                     t2.write("How do I get out of here.")
-                    randomEncounter = random.randint(0, 4)
+                    randomEncounter = random.randint(0, 2)
+                    if randomEncounter == 0:
+                        enemy_encounter(movingSkull_data)
                 elif 'inventory' in menuInput:
                     t2.write(f"""
     -----Inventory-----
@@ -416,11 +430,13 @@ def catacombs():
 
 def lair():
     t.clear()
+    t2.clear()
 
     def description():
         t.write(
-            """
-            Against your gut, you open the door, and you enter a giant vast lair that is well lit with a man standing in the middle. "It’s Bobby!"
+            """\nAgainst your gut, you open the door, and you enter a giant vast grimy lair.
+In the middle of the room is a man standing hunched over.
+            \n"It’s Bobby!"
             """)
 
     def map():
@@ -437,6 +453,7 @@ def lair():
             t2.clear()
 
             if 'talk' in menuInput:
+                t2.write(evilBob_data[2])  # Bob reveals himself as Evil Bob
                 bobFight()
             elif 'inventory' in menuInput:
                 t2.write(f"""
@@ -478,7 +495,7 @@ def displayInventory(_data):
     loop = True
     while loop:
         t2.write(f"""
------Inventory-----")
+-----Inventory-----
 {[item.lower() for item in inventory]}
 What item would you like to attack the {_data[1]} with? """)  # Display inventory in lowercase
         # Ask what item in the inventory to use
@@ -486,7 +503,10 @@ What item would you like to attack the {_data[1]} with? """)  # Display inventor
         t2.clear()
         # Check if the item exists in the inventory
         if itemUsed not in [item.lower() for item in inventory]:
-            t2.write("Please pick an item in your inventory (Case Insensitive)")
+            t2.write("""Please pick an item in your inventory (Case Insensitive)
+
+
+            """)
         elif itemUsed == _data[0].lower():
             t2.write(_data[3])
             break
@@ -517,17 +537,17 @@ def craft_items():
         # Check specific crafting recipes
         if (item1 == "lighter" and item2 == "spear") or (item1 == "spear" and item2 == "lighter"):
             t2.write("You light the end of the spear and it engulfs in flames. You are a force to be reckoned with.")
-            inventory.remove("Spear")
-            inventory.remove("Lighter")
-            inventory.append("Fiery Spear")
+            inventory.remove("spear")
+            inventory.remove("lighter")
+            inventory.append("fiery spear")
             crafted = True
 
-        if (item1 == "bone fragments" and item2 == "stick") or (item1 == "stick" and item2 == "bone fragments"):
+        if (item1 == "bone fragment" and item2 == "stick") or (item1 == "stick" and item2 == "bone fragment"):
             t2.write(
                 "You combine your stick and a fragment of the skull to craft a mighty spear, this will be a formidable weapon.")
-            inventory.remove("Stick")
-            inventory.remove("Bone Fragments")
-            inventory.append("Spear")
+            inventory.remove("stick")
+            inventory.remove("bone fragment")
+            inventory.append("spear")
             crafted = True
 
         if not crafted:
@@ -543,62 +563,58 @@ def enemy_encounter(_data):
     alreadyDefend = False
     enemy = True
     t2.write(_data[2])  # Display enemy description
-
     # Loop for combat actions
     while enemy:
         t2.clear()
-        t2.write(f"""
-                        {_data[2]}
-                        --------------------------------------------------------------
-                        What would you like to do? (Attack, Run, or Defend): 
-                        --------------------------------------------------------------""")
+        t2.write(f"""{_data[2]}
+--------------------------------------------------------------
+What would you like to do? (Attack, Run, or Defend): 
+--------------------------------------------------------------""")
         answer = turtle.textinput("Input Command", "What is your action?").lower()
         t2.clear()
 
         if answer == "attack":
             displayInventory(_data)  # Display the player's inventory for attack selection
-            weapon_choice = turtle.textinput("Input Command", "Which weapon will you use?").lower()
+            t2.write(f"""You defeated the {_data[1]}!
 
-            # Check if the correct weapon is used
-            if weapon_choice == _data[0]:
-                t2.write(f"""You defeated the {_data[1]} with your {_data[0]}!
-
-                             """)
-                # Drop the item associated with the enemy
-                if _data[8] not in inventory:
-                    inventory.append(_data[8])
-                    t2.write(f"""The {_data[1]} dropped a {_data[8]}. It has been added to your inventory.
-
-                                 """)
-                else:
-                    t2.write(f"""The {_data[1]} dropped a {_data[8]}, but you already have one.
-
-                                 """)
-                enemy = False
+                     """)
+            # Drop the item associated with the enemy
+            if _data[8] not in inventory:
+                inventory.append(_data[8])
+                t2.write(f"""The {_data[1]} dropped a {_data[8]}. It has been added to your inventory.
+                         """)
             else:
-                t2.write(f"""Your {weapon_choice} has no effect on the {_data[1]}. Try again!""")
+                t2.write(f"""The {_data[1]} dropped a {_data[8]}, but you already have one.
+                         """)
+            enemy = False
+            break
 
         elif answer == "run":
             userFlee(_data)
             break
 
-        elif answer == "defend":
+        # if player chooses to defend
+        if answer == "defend":
+            # ensures that if the player has already chosen to defend they cannot do it again
             if alreadyDefend:
                 t2.write(f"You have already defended yourself against the {_data[1]}. Pick another option.")
             else:
                 alreadyDefend = True
-                defend = random.randint(0, 1)  # 50% chance of success
+                # 50% chance of successful defend
+                defend = random.randint(0, 1)
                 if defend == 0:
-                    death = random.randint(0, 4)  # 1 in 4 chance of dying
+                    # if defend hits 0, there is a 1 in 4 chance of dying
+                    death = random.randint(0, 4)
                     if death == 0:
                         t2.write(_data[5] + "\nYou have Died, Game Over.")
-                        return # ends the game
+                        break
                     else:
+                        # player gets injured, and another chance to attack or flee
                         t2.write(_data[5] + "\nYou are injured.")
+
                 else:
                     t2.write(_data[4])
                     break
-
 
 def userFlee(_data):
     t2.write("""
@@ -614,6 +630,7 @@ You attempt to flee.
         t2.write(_data[7] + " You have Died, Game Over.")
 
 
+
 def bobFight():
     alreadyDefend = False
     enemy = True
@@ -621,7 +638,6 @@ def bobFight():
     action_sequence = ["blueberry pie", "fiery spear", "bat", "revolver"]
     current_step = 0
 
-    t2.write("...")
     while enemy:
         # Display what the player can do
         t2.write(f"""
@@ -629,7 +645,7 @@ def bobFight():
 What would you like to do? (Attack, Run, or Defend): 
 --------------------------------------------------------------
 
-                 """)
+""")
         answer = turtle.textinput("Input Command", "What is your action?").lower()
         t2.clear()
 
@@ -646,16 +662,17 @@ What would you like to do? (Attack, Run, or Defend):
 What item would you like to attack Bob with?""")
                     item_used = turtle.textinput("Input Command", "What is your action?").lower()
                     t2.clear()
+
                     if item_used == action_sequence[current_step]:
                         if not current_step == len(action_sequence) - 1:
-                            t2.write(finalBattle_data[current_step]) # attack successful
+                            t2.write(finalBattle_data[current_step])
                         current_step += 1
-                        if current_step == len(action_sequence): # bob is dead
+                        if current_step == len(action_sequence):
                             gameEnd()
                             enemy = False
                     else:
-                        t2.write(evilBob_data[5] + " You have Died, Game Over.") # wrong item used
-                        return
+                        t2.write(evilBob_data[5] + " You have Died, Game Over.")
+                        break
                 else:
                     gameEnd()
                     enemy = False
@@ -664,7 +681,7 @@ What item would you like to attack Bob with?""")
         elif answer == "run":
             t2.clear()
             if not evilBob:
-                t2.write(evilBob_data[2])  # Bob reveals himself as Evil Bob
+                t2.write(evilBob_data[8])  # Bob reveals himself as Evil Bob
                 evilBob = True
             else:
                 t2.write(evilBob_data[6])
@@ -679,14 +696,22 @@ What item would you like to attack Bob with?""")
                 if alreadyDefend:
                     t2.write(
                         f"The backpack isn't enough this time. You feel the rusty knife fly into you.\nYou have Died, Game Over.")
-                    return
+                    break
                 else:
                     alreadyDefend = True
                     t2.write(evilBob_data[4])  # Use the backpack as a shield against Evil Bob
 
         else:
+            t2.clear()
             # If 1, 2, or 3 aren't chosen
             t2.write("Please choose a valid answer (Attack, Run, Defend).")
+
+    inventory = ['bare hands', 'stick']
+
+    time.sleep(5)
+    t.clear()
+    t2.clear()
+    menu()
 
 
 def gameEnd():
