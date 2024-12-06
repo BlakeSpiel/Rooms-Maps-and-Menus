@@ -28,7 +28,7 @@ zombie_data = ["shovel",
 grue_data = ["N/A",
              "Grue",
              "The darkness makes you feel uneasy,"
-             " something is watching from the shadows",
+             "Something is watching from the shadows",
              "You [WEAPON_ACTION] but fail to hit anything in the dark",
              "Defending is useless! You curl into a ball and wait patiently for your death against the shadowed figure approaching.",
              "A fowl Grue appears before your eyes. You’ve died.",
@@ -47,7 +47,7 @@ bob_data = ["3",
 evilBob_data = ["N/A",
                 "Evil Bob",
                 "Bob's true intentions come to light, "
-                """Bob has been serial killer X-wing all along! \nI must make my attacks in percise order to finish this fight.""",
+                """Bob has been the news headline serial killer "X-Wing" all along! \nI must make my attacks in precise order to finish this fight alive.""",
                 "With adrenaline rushing through your body, you use all your might to [WEAPON_ACTION] at Bob",
                 """You take the backpack off your back and use it as a shield against Bob’s knife that will surely give you tetanus. \nLucky enough, the knife gets stuck in the ball of lint in the backpack""",
                 "Your once friend uses his rusty knife to slash into your chest.",
@@ -60,7 +60,7 @@ movingSkull_data = ["crowbar",
                     "Moving Skull",
                     "Before your eyes, a moving skull, watching you and preparing to bite.",
                     "The skull shatters into pieces upon contact with your Crowbar.",
-                    "The skull attempts to bite you and crumbles into bone fragment. They are extremely sharp.",
+                    "The skull attempts to bite you and crumbles into bone fragments. This giant fragment might be useful for crafting.",
                     "You fail to defend yourself, and the skull sees its chance and takes a few painful bites out of you.",
                     "You simply walk away from the torso-less skull.",
                     "You failed to escape the skull in time before its attack and got bit.",
@@ -181,7 +181,7 @@ the deep fog too, so it's best to keep in well-lit areas.
                     t2.write("The shovel is already in your inventory.")
             elif 'shovel' in inventory and "dig" in menuInput:
                 if "revolver" not in inventory:
-                    t2.write("""You dig down and find a broken in casket with a skeleton and a revolver laying on top. 
+                    t2.write("""You dig down and find a broken casket with a skeleton and a revolver lying on top. 
 There is only 1 bullet, and it is likely to jam.
                     """)
                     inventory.append('revolver')
@@ -238,7 +238,7 @@ through the cracks in the roof. It looks as if the building could fall apart at 
                 t2.write("On your way out of the church you notice a small key hanging from a hook, it might be worth going back and grabbing it.")
                 cemetery()
             if 'skeleton key' in inventory and 'north' in menuInput:
-                t2.write("You walk back into the eery cemetery.")
+                t2.write("You walk back into the eerie cemetery.")
                 cemetery()
             elif 'blueberry pie' in inventory and ('east' in menuInput or 'west' in menuInput or 'south' in menuInput):
                 t2.write("I wonder where that pie came from.")
@@ -603,7 +603,7 @@ What would you like to do? (Attack, Run, or Defend):
                 # 50% chance of successful defend
                 defend = random.randint(0, 1)
                 if defend == 0:
-                    # if defend hits 0, there is a 1 in 4 chance of dying
+                    # If defend hits 0, there is a 1 in 4 chance of dying
                     death = random.randint(0, 4)
                     if death == 0:
                         t2.write(_data[5] + "\nYou have Died, Game Over.")
