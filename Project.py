@@ -84,8 +84,31 @@ def help():
     -----COMMANDS-----
 Navigation: North, South, East, West, Up, Down
 Combat: Attack, Run, Defend
-Interaction: pickup (object name), Craft, Inventory """)
+Interaction: pickup (object name), Dig, Craft, Inventory """)
 
+
+
+def menu():
+    while True:
+        t2.write("""
+\nMenu
+1. Play Game
+2. Read Instructions
+3. Exit
+              """)
+        menuInput = turtle.textinput("Input Command", "What is your action?").lower().strip()
+        t2.clear()
+
+        if menuInput == '1':
+            cemetery()
+        elif menuInput == '2':
+            t2.penup()
+            t2.goto(-100, -250)
+            t2.pendown()
+            help()
+            tWrote()
+        elif menuInput == '3':
+            break
 
 def huh():
     t2.write("I'm sorry, I didn't get that. If you need help with commands just type Help.")
@@ -130,17 +153,17 @@ You notice a shovel along the wall of the small church.""")
                 t2.write("You enter the half collapsed church.")
                 church()
             elif 'west' in menuInput and 'Skeleton Key' in inventory:
-                t2.write("""
-You twist the key into the lock and with little effort, you're able to push the doors open.
+                t2.write("""You twist the key into the lock and with little effort, you're able to push the doors open.
 After walking in, a large gust of wind slams the door behind you.
+                         
 """)
                 mausoleum()
             elif 'west' in menuInput and 'Skeleton Key' not in inventory:
                 t2.write("You attempt to open the doors but they won't budge. The key must be around here somewhere.")
             elif 'north' in menuInput or 'east' in menuInput:
-                t2.write("""
-The fog is too thick to see anything worth investigating, Grues might be lurking around in 
-the deep fog too, so it's best to keep in well-lit areas.""")
+                t2.write("""The fog is too thick to see anything worth investigating, Grues might be lurking around in 
+the deep fog too, so it's best to keep in well-lit areas.
+                         """)
                 menu()
             elif "shovel" in menuInput and "pickup" in menuInput:
                 if "shovel" not in inventory:
@@ -165,8 +188,6 @@ the deep fog too, so it's best to keep in well-lit areas.""")
                 craft_items()
             elif 'help' in menuInput:
                 help()
-            elif 'debug' in menuInput:
-                inventory.append('Skeleton Key')
             else:
                 huh()
 
@@ -181,9 +202,8 @@ def church():
 
     def description():
         t.write(
-            """
-            The door creaks as you enter the church, and the moon lights up the inside of the building 
-            through the cracks in the roof. It looks as if the building could fall apart at any moment.
+            """The door creaks as you enter the church, and the moon lights up the inside of the building 
+through the cracks in the roof. It looks as if the building could fall apart at any moment.
             \nYou smell a sweet scent coming from a room in the back of the church.
             """)
 
@@ -208,7 +228,7 @@ def church():
             t2.clear()
 
             if 'north' in menuInput:
-                t2.write("You walk back to the eery cemetery.")
+                t2.write("On your way out of the church you notice a small key hanging from a hook, it might be worth going back and grabbing it.")
                 cemetery()
             elif 'blueberry pie' in inventory and ('east' in menuInput or 'west' in menuInput or 'south' in menuInput):
                 t2.write("I wonder where that pie came from.")
@@ -221,12 +241,14 @@ def church():
                 else:
                     t2.write("The Blueberry Pie is already in your inventory.")
             elif 'key' in menuInput and 'pickup' in menuInput:
-                t2.write("You pick up the skeleton key.")
+                t2.write("You grab the skeleton key from its hook.")
                 inventory.append('Skeleton Key')
             elif 'inventory' in menuInput:
                 t2.write(f"""
 -----Inventory-----
 {[item.lower() for item in inventory]}""")  # Display inventory in lowercase
+            elif 'shovel' in inventory and "dig" in menuInput:
+                t2.write("Digging in a church! No way.")
             elif 'craft' in menuInput:
                 craft_items()
             elif 'help' in menuInput:
@@ -297,6 +319,8 @@ def mausoleum():
                     inventory.append('lighter')
                 else:
                     t2.write("The lighter is already in your inventory.")
+            elif 'shovel' in inventory and "dig" in menuInput:
+                t2.write("You try to dig but the floor doesn't give way.")
             elif 'inventory' in menuInput:
                 t2.write(f"""
 -----Inventory-----
@@ -371,6 +395,8 @@ def catacombs():
                     t2.write(f"""
     -----Inventory-----
     {[item.lower() for item in inventory]}""")  # Display inventory in lowercase
+                elif 'shovel' in inventory and "dig" in menuInput:
+                    t2.write("Congrats! You dug up dirt.")
                 elif 'craft' in menuInput:
                     craft_items()
                 elif 'look' in menuInput:
@@ -445,9 +471,6 @@ def tWrote():
     t2.goto(-350, -270)
     t2.pendown()
     t2.clear
-
-
-tWrote()
 
 
 def displayInventory(_data):
@@ -686,16 +709,5 @@ def gameEnd():
     t2.write("You win, but at what cost")
     time.sleep(3)
 
-# enemy_encounter(movingSkull_data)
-# gameEnd()
-# craft_items()
-# enemy_encounter(zombie_data)
-# bobFight()
-cemetery()
-# church()
-# mausoleum()
-# catacombs()
-# lair()
-
-# Keeps the turtle menu on the screen
-# turtle.mainloop()
+tWrote()
+menu()
