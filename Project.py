@@ -562,7 +562,7 @@ def enemy_encounter(_data):
     randomEncounter = 1
     alreadyDefend = False
     enemy = True
-    t2.write(_data[2])  # Display enemy description
+    t2.write(_data[2])  # Display enemy descriptionz
     # Loop for combat actions
     while enemy:
         t2.clear()
@@ -575,7 +575,8 @@ What would you like to do? (Attack, Run, or Defend):
 
         if answer == "attack":
             displayInventory(_data)  # Display the player's inventory for attack selection
-            t2.write(f"""You defeated the {_data[1]}!
+            if weapon_choice == _data[0]:
+                t2.write(f"""You defeated the {_data[1]} with your {_data[0]}!
 
                      """)
             # Drop the item associated with the enemy
@@ -583,6 +584,7 @@ What would you like to do? (Attack, Run, or Defend):
                 inventory.append(_data[8])
                 t2.write(f"""The {_data[1]} dropped a {_data[8]}. It has been added to your inventory.
                          """)
+              
             else:
                 t2.write(f"""The {_data[1]} dropped a {_data[8]}, but you already have one.
                          """)
